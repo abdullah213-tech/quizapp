@@ -31,6 +31,16 @@ RUN pip install --upgrade pip && \
 # Copy project files
 COPY . /app/
 
+# Build frontend assets if package.json exists
+# Install npm dependencies and build (if needed)
+RUN if [ -f "package.json" ]; then \
+        echo "Building frontend assets..." && \
+        npm install && \
+        npm run build || true; \
+    else \
+        echo "No package.json found, skipping npm build"; \
+    fi
+
 # Create necessary directories
 RUN mkdir -p /app/staticfiles /app/media/recordings
 
@@ -38,7 +48,7 @@ RUN mkdir -p /app/staticfiles /app/media/recordings
 COPY docker-entrypoint.sh /app/
 RUN chmod +x /app/docker-entrypoint.sh
 
-# Collect static files
+# Collect static files (includes compiled assets)
 RUN python manage.py collectstatic --noinput || true
 
 # Expose port
@@ -47,6 +57,6 @@ EXPOSE 8000
 # Set entrypoint
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
-# Default command
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "--timeout", "120", "quizapp.wsgi:application"]
+# Default command (use shell form to allow $PORT variable expansion)
+CMD gunicorn --bind 0.0.0.0:${PORT:-8000} --workers 3 --timeout 120 quizapp.wsgi:application
 
