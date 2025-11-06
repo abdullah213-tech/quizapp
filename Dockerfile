@@ -31,15 +31,6 @@ RUN pip install --upgrade pip && \
 # Copy project files
 COPY . /app/
 
-# Build frontend assets if package.json exists
-# Install npm dependencies and build (if needed)
-RUN if [ -f "package.json" ]; then \
-        echo "Building frontend assets..." && \
-        npm install && \
-        npm run build || true; \
-    else \
-        echo "No package.json found, skipping npm build"; \
-    fi
 
 # Create necessary directories
 RUN mkdir -p /app/staticfiles /app/media/recordings
