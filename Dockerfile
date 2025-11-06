@@ -48,6 +48,6 @@ EXPOSE 8000
 # Set entrypoint
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
-# Default command (use shell form to allow $PORT variable expansion)
-CMD gunicorn --bind 0.0.0.0:${PORT:-8000} --workers 3 --timeout 120 quizapp.wsgi:application
+# Default command (use shell to allow $PORT variable expansion)
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-8000} --workers 3 --timeout 120 quizapp.wsgi:application"]
 
