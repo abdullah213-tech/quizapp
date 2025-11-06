@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Quiz Application</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-box">
+            <div class="error-icon">⚠️</div>
+            <h1>{{ error }}</h1>
+            <p>{{ message }}</p>
+            <a href="mailto:admin@example.com" class="btn btn-primary">Contact Administrator</a>
+        </div>
+    </div>
+</body>
+</html>
+

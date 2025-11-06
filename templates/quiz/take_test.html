@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ quiz.title }} - Quiz Application</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="test-page">
+    <!-- Proctoring Setup Modal -->
+    <div id="setupModal" class="modal">
+        <div class="modal-content" style="max-height: 90vh; overflow-y: auto;">
+            <h2>⚠️ ADVANCED AI PROCTORING SYSTEM</h2>
+            <p><strong>Before starting the test, you MUST:</strong></p>
+            <ul style="line-height: 2;">
+                <li>✅ Enable your camera (required for face detection)</li>
+                <li>✅ Share your <strong>ENTIRE DESKTOP/MONITOR</strong> (full screen only)</li>
+                <li>✅ Ensure your face is visible and well-lit</li>
+                <li>✅ Be alone in the room (no other people)</li>
+            </ul>
+            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 1rem; margin: 1rem 0; border-radius: 4px;">
+                <p style="margin: 0; color: #856404; font-weight: bold;">🖥️ DESKTOP SCREEN SHARING REQUIRED:</p>
+                <ul style="color: #856404; margin-top: 0.5rem; line-height: 1.8;">
+                    <li>✅ <strong>Must share:</strong> Entire Desktop/Monitor (full screen)</li>
+                    <li>❌ <strong>Not allowed:</strong> Chrome tabs, application windows, or browser windows</li>
+                    <li>🔍 System automatically validates screen type</li>
+                    <li>⚠️ Invalid screen sharing = Setup fails</li>
+                </ul>
+            </div>
+            <div style="background: #fff5f5; border-left: 4px solid #e53e3e; padding: 1rem; margin: 1rem 0; border-radius: 4px;">
+                <p style="margin: 0; color: #c53030; font-weight: bold;">🤖 AI MONITORING - AUTOMATIC FAIL IF:</p>
+                <ul style="color: #742a2a; margin-top: 0.5rem; line-height: 1.8;">
+                    <li>🚫 No face detected (3 times) - camera blocked or left seat</li>
+                    <li>🚫 Multiple faces detected (2 times) - unauthorized assistance</li>
+                    <li>🚫 Looking away from screen repeatedly (5 times) - using phone/notes</li>
+                    <li>📱 <strong>MOBILE PHONE USAGE DETECTED - Advanced AI monitors:</strong>
+                        <ul style="margin-top: 0.3rem;">
+                            <li>• Repeated downward glances (checking phone in lap)</li>
+                            <li>• Hands out of camera frame (holding phone)</li>
+                            <li>• Phone screen reflections in face/glasses</li>
+                            <li>• Suspicious lighting patterns from phone screen</li>
+                        </ul>
+                    </li>
+                    <li>🚫 <strong>Open test in multiple browser windows or profiles</strong></li>
+                    <li>🚫 Switch tabs or open new tabs</li>
+                    <li>🚫 Minimize the browser window</li>
+                    <li>🚫 Click outside the browser window</li>
+                    <li>🚫 Exit fullscreen mode</li>
+                    <li>🚫 Stop screen sharing</li>
+                    <li>🚫 Copy/paste attempts</li>
+                    <li>🚫 Print or screenshot attempts</li>
+                </ul>
+            </div>
+            <div style="background: #fef5e7; border-left: 4px solid #f39c12; padding: 1rem; margin: 1rem 0; border-radius: 4px;">
+                <p style="margin: 0; color: #d35400; font-weight: bold;">🔒 SINGLE BROWSER INSTANCE ONLY:</p>
+                <ul style="color: #8e5f0f; margin-top: 0.5rem; line-height: 1.8;">
+                    <li>✓ Use ONLY ONE browser window/tab for this test</li>
+                    <li>✓ Do NOT open the test in multiple browsers (Chrome, Firefox, etc.)</li>
+                    <li>✓ Do NOT use different browser profiles</li>
+                    <li>✓ System detects and blocks multiple instances automatically</li>
+                    <li>⚠️ Opening test elsewhere = Instant disqualification</li>
+                </ul>
+            </div>
+            <p style="color: #c53030; font-weight: bold; margin-top: 1rem;">
+                ⚡ AI face detection active every 3 seconds | No second chances | Instant disqualification
+            </p>
+            <div style="background: #edf2f7; border: 2px solid #667eea; padding: 1.5rem; margin: 1rem 0; border-radius: 8px;">
+                <p style="margin: 0 0 1rem 0; color: #2d3748; font-weight: bold; font-size: 1.1rem;">📖 HOW TO SHARE YOUR DESKTOP:</p>
+                <div style="background: white; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                    <p style="margin: 0 0 0.5rem 0; color: #2d3748; font-weight: bold;">When the screen sharing dialog appears:</p>
+                    <ol style="margin: 0.5rem 0 0 1.2rem; color: #4a5568; line-height: 1.8;">
+                        <li><strong style="color: #48bb78;">✅ Click "Entire screen" tab</strong> at the top of the dialog</li>
+                        <li><strong style="color: #48bb78;">✅ Select your main desktop/monitor</strong> from the preview</li>
+                        <li><strong style="color: #48bb78;">✅ Click the blue "Share" button</strong> to confirm</li>
+                    </ol>
+                </div>
+                <div style="background: #fff5f5; padding: 1rem; border-radius: 6px; border-left: 4px solid #e53e3e;">
+                    <p style="margin: 0 0 0.5rem 0; color: #c53030; font-weight: bold;">❌ DO NOT SELECT:</p>
+                    <ul style="margin: 0.5rem 0 0 1.2rem; color: #742a2a; line-height: 1.8;">
+                        <li>❌ "Chrome tab" or "Browser tab"</li>
+                        <li>❌ "Window" or "Application window"</li>
+                        <li>❌ Any individual program or application</li>
+                    </ul>
+                </div>
+                <div style="background: #e6fffa; padding: 1rem; border-radius: 6px; border-left: 4px solid #38b2ac; margin-top: 1rem;">
+                    <p style="margin: 0; color: #234e52; font-weight: bold;">🔒 AUTOMATIC VALIDATION:</p>
+                    <ul style="margin: 0.5rem 0 0 1.2rem; color: #234e52; line-height: 1.8;">
+                        <li>✓ System checks screen type automatically</li>
+                        <li>✓ Validates desktop/monitor selection</li>
+                        <li>✓ Checks screen resolution</li>
+                        <li>✓ Monitors throughout entire test</li>
+                    </ul>
+                </div>
+                <p style="margin: 1rem 0 0 0; color: #e53e3e; font-weight: bold; text-align: center;">
+                    ⚠️ Only ENTIRE DESKTOP/MONITOR sharing is accepted! Window/tab sharing will be rejected!
+                </p>
+            </div>
+            <div id="permissionStatus">
+                <p id="cameraStatus">📹 Camera: <span class="status-pending">Pending</span></p>
+                <p id="screenStatus">🖥️ Desktop Share (Monitor): <span class="status-pending">Pending</span></p>
+            </div>
+            <button id="setupBtn" class="btn btn-primary btn-lg">I Understand - Start Setup</button>
+            <button id="startTestBtn" class="btn btn-success btn-lg" style="display:none;">✅ Start Test</button>
+        </div>
+    </div>
+
+    <!-- Video Preview (hidden) -->
+    <div id="videoPreview" style="position: fixed; bottom: 10px; right: 10px; width: 200px; z-index: 1000; display: none;">
+        <video id="cameraVideo" autoplay muted style="width: 100%; border: 2px solid #007bff; border-radius: 8px;"></video>
+    </div>
+
+    <!-- Test Interface -->
+    <div id="testInterface" style="display: none;">
+        <div class="test-header">
+            <div class="container">
+                <h1>{{ quiz.title }}</h1>
+                <div class="test-info">
+                    <span class="student-name">👤 {{ student_name }}</span>
+                    <span class="timer" id="timer">⏱️ <span id="timeRemaining">{{ duration_minutes }}:00</span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container test-container" style="max-height: calc(100vh - 100px); overflow-y: auto; padding-bottom: 2rem;">
+            <div class="quiz-description">
+                <p>{{ quiz.description }}</p>
+                <div style="background: #fff5f5; border-left: 4px solid #e53e3e; padding: 1rem; margin: 1rem 0; border-radius: 8px;">
+                    <p style="color: #c53030; font-weight: bold; margin-bottom: 0.5rem;">🤖 AI PROCTORING ACTIVE:</p>
+                    <ul style="color: #742a2a; margin: 0;">
+                        <li>👁️ Face detection monitoring (every 3 seconds)</li>
+                        <li>📱 <strong>Mobile phone usage detection (advanced AI)</strong></li>
+                        <li>📹 Camera recording your face</li>
+                        <li>🖥️ <strong>Entire Desktop/Monitor being shared</strong></li>
+                        <li>🔍 Screen share type validated continuously</li>
+                        <li>🔐 <strong>Single browser instance enforced</strong></li>
+                        <li>💻 Browser fingerprinting active</li>
+                        <li>🔒 Fullscreen mode enforced</li>
+                        <li>🖱️ Mouse movement tracked</li>
+                        <li>📋 Clipboard actions blocked</li>
+                        <li>⚠️ Any violation = Instant FAIL</li>
+                    </ul>
+                </div>
+                <p><strong>Instructions:</strong></p>
+                <ul>
+                    <li>Answer all questions to the best of your ability</li>
+                    <li>Stay in fullscreen mode throughout the test</li>
+                    <li>Keep the browser window focused at all times</li>
+                    <li>Click "Submit Test" when finished</li>
+                </ul>
+            </div>
+
+            <form id="quizForm">
+                {% for question in questions %}
+                <div class="question-card" data-question-id="{{ question.id }}">
+                    <div class="question-header">
+                        <span class="question-number">Question {{ forloop.counter }}</span>
+                        <span class="question-points">{{ question.points }} point{{ question.points|pluralize }}</span>
+                    </div>
+                    <p class="question-text">{{ question.question_text }}</p>
+                    
+                    {% if question.question_type == 'multiple_choice' %}
+                        <div class="choices">
+                            {% for choice in question.choices.all %}
+                            <label class="choice-label">
+                                <input type="radio" 
+                                       name="question_{{ question.id }}" 
+                                       value="{{ choice.id }}"
+                                       data-question-id="{{ question.id }}"
+                                       data-choice-id="{{ choice.id }}">
+                                <span>{{ choice.choice_text }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    {% elif question.question_type == 'true_false' %}
+                        <div class="choices">
+                            {% for choice in question.choices.all %}
+                            <label class="choice-label">
+                                <input type="radio" 
+                                       name="question_{{ question.id }}" 
+                                       value="{{ choice.id }}"
+                                       data-question-id="{{ question.id }}"
+                                       data-choice-id="{{ choice.id }}">
+                                <span>{{ choice.choice_text }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    {% elif question.question_type == 'short_answer' %}
+                        <textarea name="question_{{ question.id }}_text" 
+                                  class="short-answer"
+                                  data-question-id="{{ question.id }}"
+                                  rows="4"
+                                  placeholder="Type your answer here..."></textarea>
+                    {% elif question.question_type == 'coding_js' or question.question_type == 'coding_python' %}
+                        <div class="code-editor-container">
+                            <div class="code-editor-header">
+                                <span class="language-badge">
+                                    {% if question.question_type == 'coding_js' %}
+                                        🟨 JavaScript
+                                    {% else %}
+                                        🐍 Python
+                                    {% endif %}
+                                </span>
+                                <button type="button" 
+                                        class="btn-run-code" 
+                                        data-question-id="{{ question.id }}"
+                                        data-language="{% if question.question_type == 'coding_js' %}javascript{% else %}python{% endif %}">
+                                    ▶️ Run Code
+                                </button>
+                            </div>
+                            <textarea class="code-editor" 
+                                      name="question_{{ question.id }}_code"
+                                      data-question-id="{{ question.id }}"
+                                      data-language="{% if question.question_type == 'coding_js' %}javascript{% else %}python{% endif %}"
+                                      rows="15"
+                                      spellcheck="false">{% if question.starter_code %}{{ question.starter_code }}{% else %}// Write your code here{% endif %}</textarea>
+                            <div class="code-output" id="output_{{ question.id }}">
+                                <div class="output-header">💻 Output:</div>
+                                <pre class="output-content" id="output_content_{{ question.id }}">Run your code to see output here...</pre>
+                                <div class="execution-time" id="exec_time_{{ question.id }}" style="display:none;">
+                                    ⏱️ Execution time: <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <div class="test-actions">
+                    <button type="button" id="submitTestBtn" class="btn btn-success btn-lg">Submit Test</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Disqualification Modal -->
+    <div id="disqualifyModal" class="modal" style="display: none;">
+        <div class="modal-content error">
+            <h2>Test Terminated</h2>
+            <p id="disqualifyReason">You have been disqualified from this test.</p>
+            <p>Your test has been automatically failed.</p>
+        </div>
+    </div>
+
+    <script>
+        const ATTEMPT_ID = {{ attempt.id }};
+        const DURATION_MINUTES = {{ duration_minutes }};
+        const CSRF_TOKEN = '{{ csrf_token }}';
+    </script>
+    <script src="{% static 'js/session_manager.js' %}"></script>
+    <script src="{% static 'js/phone_detection.js' %}"></script>
+    <script src="{% static 'js/proctoring.js' %}"></script>
+    <script src="{% static 'js/quiz.js' %}"></script>
+    <script src="{% static 'js/code_editor.js' %}"></script>
+</body>
+</html>
+

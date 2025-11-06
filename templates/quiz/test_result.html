@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Results - {{ quiz.title }}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="result-container">
+            <h1>Test Results</h1>
+            
+            <div class="result-summary">
+                <h2>{{ attempt.student_name }}</h2>
+                <h3>{{ quiz.title }}</h3>
+                
+                {% if attempt.status == 'disqualified' %}
+                    <div class="score-box failed">
+                        <div class="score-percentage">DISQUALIFIED</div>
+                        <div class="pass-status">
+                            <span class="badge badge-danger">TEST TERMINATED</span>
+                        </div>
+                    </div>
+                        {% else %}
+                    <!-- Pending Review Message -->
+                    <div class="score-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;">
+                        <div style="color: white; padding: 2rem;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">⏳</div>
+                            <div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;">Test Submitted Successfully!</div>
+                            <div style="font-size: 1.1rem; opacity: 0.95;">
+                                Your test is under review by the instructor
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert" style="margin-top: 1.5rem; padding: 1.5rem; border-left: 5px solid #667eea; background-color: #f0f4ff; border-radius: 8px;">
+                        <h3 style="color: #4c51bf; margin-top: 0; margin-bottom: 1rem; font-size: 1.2rem;">
+                            📧 Results Will Be Emailed
+                        </h3>
+                        <div style="background: white; padding: 1.5rem; border-radius: 6px; margin-bottom: 1rem;">
+                            <p style="color: #4a5568; margin: 0; line-height: 1.8; font-size: 1rem;">
+                                <strong style="color: #2d3748;">What happens next:</strong><br><br>
+                                ✅ Your instructor will review your test and proctoring logs<br>
+                                ✅ Results will be emailed to: <strong style="color: #667eea;">{{ attempt.student_email }}</strong><br>
+                                ✅ You'll receive your score and feedback within 24-48 hours<br>
+                                ✅ Check your email (including spam folder) for results
+                            </p>
+                        </div>
+                        <div style="background: #e6fffa; padding: 1rem; border-radius: 6px; border-left: 3px solid #38b2ac;">
+                            <p style="margin: 0; color: #234e52; font-size: 0.95rem;">
+                                <strong>📋 Test Information:</strong><br>
+                                <strong>Test ID:</strong> #{{ attempt.id }}<br>
+                                <strong>Submitted:</strong> {{ attempt.end_time|date:"F d, Y - H:i:s" }}<br>
+                                <strong>Duration:</strong> {{ attempt.start_time|timesince:attempt.end_time }}
+                            </p>
+                        </div>
+                    </div>
+                        {% endif %}
+
+                {% if attempt.status == 'disqualified' %}
+                <div class="alert alert-danger" style="margin-top: 1.5rem; padding: 1.5rem; border-left: 5px solid #dc3545; background-color: #f8d7da; border-radius: 8px;">
+                    <h3 style="color: #721c24; margin-top: 0; margin-bottom: 1rem; font-size: 1.3rem;">
+                        ⚠️ Test Disqualified
+                    </h3>
+                    <div style="background: white; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+                        <strong style="color: #721c24; font-size: 1.1rem;">Reason:</strong>
+                        <p style="color: #721c24; margin-top: 0.5rem; margin-bottom: 0; font-size: 1rem; line-height: 1.6;">
+                            {{ attempt.disqualification_reason|default:"Violation detected during test" }}
+                        </p>
+                    </div>
+                    <div style="background: #fff3cd; padding: 1rem; border-radius: 4px; border-left: 3px solid #ffc107;">
+                        <p style="margin: 0; color: #856404; font-size: 0.95rem;">
+                            <strong>📋 Note:</strong> All proctoring events have been logged. If you believe this is an error, please contact the administrator with your test attempt ID: <strong>#{{ attempt.id }}</strong>
+                        </p>
+                    </div>
+                    <div style="margin-top: 1rem; padding: 0.75rem; background: #e9ecef; border-radius: 4px;">
+                        <p style="margin: 0; color: #495057; font-size: 0.9rem;">
+                            <strong>🕐 Test Started:</strong> {{ attempt.start_time|date:"F d, Y - H:i:s" }}<br>
+                            <strong>🕑 Test Terminated:</strong> {{ attempt.end_time|date:"F d, Y - H:i:s" }}
+                        </p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Answer Review Section - Hidden as per requirement -->
+            <!--
+            <div class="answers-review">
+                <h3>Answer Review</h3>
+                {% for answer in answers %}
+                <div class="answer-card {% if answer.is_correct %}correct{% else %}incorrect{% endif %}">
+                    <div class="answer-header">
+                        <span class="question-number">Question {{ forloop.counter }}</span>
+                        <span class="points">{{ answer.points_earned }}/{{ answer.question.points }} points</span>
+                    </div>
+                    <p class="question-text">{{ answer.question.question_text }}</p>
+                    
+                    {% if answer.selected_choice %}
+                    <div class="answer-info">
+                        <p><strong>Your Answer:</strong> {{ answer.selected_choice.choice_text }}</p>
+                        {% if not answer.is_correct and answer.question.choices.all %}
+                        <p class="correct-answer">
+                            <strong>Correct Answer:</strong> 
+                            {% for choice in answer.question.choices.all %}
+                                {% if choice.is_correct %}{{ choice.choice_text }}{% endif %}
+                            {% endfor %}
+                        </p>
+                        {% endif %}
+                    </div>
+                    {% elif answer.text_answer %}
+                    <div class="answer-info">
+                        <p><strong>Your Answer:</strong></p>
+                        <p class="text-answer">{{ answer.text_answer }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            -->
+
+            <div class="result-actions">
+                <a href="mailto:admin@example.com" class="btn btn-primary">Contact Administrator</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

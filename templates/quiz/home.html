@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Application - Home</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-box">
+            <div class="error-icon">📚</div>
+            <h1>Welcome to Quiz Application</h1>
+            <p>This is a proctored quiz platform with advanced monitoring features.</p>
+            
+            <div style="margin: 2rem 0; text-align: left;">
+                <h3 style="color: #667eea; margin-bottom: 1rem;">Quick Links:</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 1rem 0;">
+                        <a href="/admin/" class="btn btn-primary" style="text-decoration: none; display: inline-block;">
+                            🔐 Admin Panel
+                        </a>
+                        <p style="color: #666; margin-top: 0.5rem; font-size: 0.9rem;">
+                            For administrators to manage quizzes, questions, and invitations
+                        </p>
+                    </li>
+                </ul>
+            </div>
+
+            <div style="background: #f7fafc; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; text-align: left;">
+                <h3 style="color: #2d3748; margin-bottom: 1rem;">📋 For Students:</h3>
+                <p style="color: #4a5568; margin-bottom: 0.5rem;">
+                    If you received a test invitation email, click the unique link provided in the email.
+                </p>
+                <p style="color: #4a5568; margin-bottom: 0;">
+                    Test links look like: <code style="background: #e2e8f0; padding: 0.2rem 0.5rem; border-radius: 4px;">/quiz/take/{token}/</code>
+                </p>
+            </div>
+
+            <div style="background: #fff5f5; border-left: 4px solid #e53e3e; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; text-align: left;">
+                <h3 style="color: #c53030; margin-bottom: 1rem;">⚠️ Important Note:</h3>
+                <p style="color: #742a2a; margin-bottom: 0;">
+                    You cannot browse available tests. Tests are invitation-only and accessed via unique links sent to your email.
+                </p>
+            </div>
+
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #e2e8f0;">
+                <p style="color: #718096; font-size: 0.9rem;">
+                    Need help? Contact your administrator or check the documentation.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .error-box {
+            max-width: 700px;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</body>
+</html>
+

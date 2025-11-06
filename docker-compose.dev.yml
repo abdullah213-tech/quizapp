@@ -1,0 +1,22 @@
+# Development configuration with SQLite and live code reload
+services:
+  web:
+    build: .
+    container_name: quizapp_web_dev
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - /app/venv  # Exclude venv from volume mount
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=django-insecure-z2lpw5uec)_lx!)!cjv#!)+@z&13wwg6&&f$$ar((2hi9f((aw8
+      - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
+      - DB_ENGINE=django.db.backends.sqlite3
+      - DB_NAME=/app/db.sqlite3
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
+      - DJANGO_SUPERUSER_PASSWORD=admin123
+    restart: unless-stopped
+

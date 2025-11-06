@@ -1,0 +1,47 @@
+services:
+  web:
+    build: .
+    container_name: quizapp_web
+    command: gunicorn --bind 0.0.0.0:8000 --workers 3 --timeout 120 quizapp.wsgi:application
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.docker
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=django-insecure-z2lpw5uec)_lx!)!cjv#!)+@z&13wwg6&&f$$ar((2hi9f((aw8
+      - ALLOWED_HOSTS=localhost,127.0.0.1
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    container_name: quizapp_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=quizapp
+      - POSTGRES_USER=quizapp_user
+      - POSTGRES_PASSWORD=quizapp_password
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  # Optional: Redis for caching (uncomment if needed)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: quizapp_redis
+  #   ports:
+  #     - "6379:6379"
+  #   restart: unless-stopped
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+
