@@ -39,6 +39,19 @@ else:
     if DEBUG:
         ALLOWED_HOSTS.append('*')  # Allow all in debug mode
 
+# CSRF trusted origins - required for Railway and other hosted platforms
+CSRF_TRUSTED_ORIGINS_ENV = os.environ.get('CSRF_TRUSTED_ORIGINS', '')
+if CSRF_TRUSTED_ORIGINS_ENV:
+    CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in CSRF_TRUSTED_ORIGINS_ENV.split(',') if origin.strip()]
+else:
+    # Default trusted origins for Railway
+    CSRF_TRUSTED_ORIGINS = [
+        'https://*.railway.app',
+        'https://*.up.railway.app',
+        'http://localhost:8000',
+        'http://127.0.0.1:8000',
+    ]
+
 
 # Application definition
 
