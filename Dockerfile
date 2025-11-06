@@ -45,9 +45,6 @@ RUN python manage.py collectstatic --noinput || true
 # Expose port
 EXPOSE 8000
 
-# Set entrypoint
+# Set entrypoint (handles gunicorn startup with PORT variable)
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
-
-# Default command (use shell to allow $PORT variable expansion)
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-8000} --workers 3 --timeout 120 quizapp.wsgi:application"]
 

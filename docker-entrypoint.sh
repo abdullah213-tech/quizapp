@@ -39,6 +39,11 @@ fi
 
 echo "Starting server..."
 
-# Execute the main command
-exec "$@"
+# If no command is passed, start gunicorn with PORT from environment
+if [ $# -eq 0 ]; then
+    exec gunicorn --bind 0.0.0.0:${PORT:-8000} --workers 3 --timeout 120 quizapp.wsgi:application
+else
+    # Otherwise, execute the passed command
+    exec "$@"
+fi
 
