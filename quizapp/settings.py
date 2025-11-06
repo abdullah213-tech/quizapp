@@ -27,7 +27,17 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-z2lpw5uec)_lx!)!cjv#!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else []
+# ALLOWED_HOSTS configuration
+# For Railway/production: set ALLOWED_HOSTS env var (e.g., "yourdomain.com,*.railway.app")
+# For development: defaults to localhost and common development hosts
+ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS', '')
+if ALLOWED_HOSTS_ENV:
+    ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_ENV.split(',') if host.strip()]
+else:
+    # Default for development and Railway
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '.railway.app', '.up.railway.app']
+    if DEBUG:
+        ALLOWED_HOSTS.append('*')  # Allow all in debug mode
 
 
 # Application definition
