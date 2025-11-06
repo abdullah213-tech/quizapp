@@ -1,0 +1,157 @@
+# =============================================================================
+# PythonAnywhere Configuration Reference
+# =============================================================================
+# 
+# This file contains all the configuration values you'll need for deployment.
+# Copy these values when configuring your PythonAnywhere web app.
+#
+# NOTE: This is a reference file only - not used by the system directly.
+# You'll manually enter these values in PythonAnywhere's web interface.
+#
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# PROJECT INFORMATION
+# -----------------------------------------------------------------------------
+
+PROJECT_NAME=quizapp
+PYTHON_VERSION=3.10
+DJANGO_VERSION=4.2.7
+VIRTUALENV_NAME=quizapp-env
+
+# -----------------------------------------------------------------------------
+# PATHS (Update YOUR_USERNAME and YOUR_REPO)
+# -----------------------------------------------------------------------------
+
+# PythonAnywhere username (your login username)
+PA_USERNAME=YOUR_USERNAME
+
+# Your GitHub repository name (folder name after cloning)
+REPO_NAME=YOUR_REPO
+
+# Full paths (used in configuration)
+PROJECT_PATH=/home/YOUR_USERNAME/YOUR_REPO
+VIRTUALENV_PATH=/home/YOUR_USERNAME/.virtualenvs/quizapp-env
+STATIC_PATH=/home/YOUR_USERNAME/YOUR_REPO/staticfiles
+MEDIA_PATH=/home/YOUR_USERNAME/YOUR_REPO/media
+DATABASE_PATH=/home/YOUR_USERNAME/YOUR_REPO/db.sqlite3
+
+# -----------------------------------------------------------------------------
+# WEB APP CONFIGURATION
+# -----------------------------------------------------------------------------
+
+# Your site URL (automatically assigned by PythonAnywhere)
+SITE_URL=YOUR_USERNAME.pythonanywhere.com
+
+# WSGI module
+WSGI_MODULE=quizapp.wsgi:application
+
+# Django settings module
+DJANGO_SETTINGS_MODULE=quizapp.settings
+
+# -----------------------------------------------------------------------------
+# STATIC FILES MAPPING
+# -----------------------------------------------------------------------------
+
+# Static files
+# URL: /static/
+# Directory: /home/YOUR_USERNAME/YOUR_REPO/staticfiles/
+
+# Media files (uploads, recordings)
+# URL: /media/
+# Directory: /home/YOUR_USERNAME/YOUR_REPO/media/
+
+# -----------------------------------------------------------------------------
+# ENVIRONMENT VARIABLES (Set in WSGI file)
+# -----------------------------------------------------------------------------
+
+# REQUIRED - Set these in your WSGI configuration file:
+
+DEBUG=False
+SECRET_KEY=<GENERATE_THIS_USING_COMMAND_BELOW>
+ALLOWED_HOSTS=YOUR_USERNAME.pythonanywhere.com
+
+# To generate SECRET_KEY, run in Bash console:
+# python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+
+# -----------------------------------------------------------------------------
+# BASH CONSOLE COMMANDS REFERENCE
+# -----------------------------------------------------------------------------
+
+# Clone repository:
+# git clone https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO.git
+
+# Create virtual environment:
+# mkvirtualenv --python=/usr/bin/python3.10 quizapp-env
+
+# Activate virtual environment:
+# workon quizapp-env
+
+# Install dependencies:
+# pip install -r requirements.txt
+
+# Run migrations:
+# python manage.py migrate
+
+# Create superuser:
+# python manage.py createsuperuser
+
+# Collect static files:
+# python manage.py collectstatic --noinput
+
+# Generate SECRET_KEY:
+# python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+
+# Update code after changes:
+# cd ~/YOUR_REPO && git pull && python manage.py migrate && python manage.py collectstatic --noinput
+
+# Check disk usage:
+# du -sh ~/YOUR_REPO
+
+# Check recordings size:
+# du -sh ~/YOUR_REPO/media/recordings
+
+# Clean old recordings (7+ days):
+# find ~/YOUR_REPO/media/recordings -name "*.webm" -mtime +7 -delete
+
+# -----------------------------------------------------------------------------
+# TROUBLESHOOTING
+# -----------------------------------------------------------------------------
+
+# View recent error logs:
+# tail -n 50 /var/log/YOUR_USERNAME.pythonanywhere.com.error.log
+
+# Test Django setup:
+# python manage.py check
+
+# Check if database is working:
+# python manage.py dbshell
+
+# Test collectstatic:
+# python manage.py collectstatic --noinput --dry-run
+
+# Verify Python version:
+# python --version
+
+# List installed packages:
+# pip list
+
+# Check virtual environment:
+# echo $VIRTUAL_ENV
+
+# -----------------------------------------------------------------------------
+# USEFUL LINKS
+# -----------------------------------------------------------------------------
+
+# Your app: https://YOUR_USERNAME.pythonanywhere.com
+# Admin panel: https://YOUR_USERNAME.pythonanywhere.com/admin/
+# PythonAnywhere dashboard: https://www.pythonanywhere.com/user/YOUR_USERNAME/
+# Web app config: https://www.pythonanywhere.com/user/YOUR_USERNAME/webapps/
+# Files: https://www.pythonanywhere.com/user/YOUR_USERNAME/files/
+# Consoles: https://www.pythonanywhere.com/user/YOUR_USERNAME/consoles/
+# PythonAnywhere help: https://help.pythonanywhere.com
+
+# =============================================================================
+# END OF CONFIGURATION
+# =============================================================================
+
