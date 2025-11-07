@@ -23,17 +23,28 @@ python manage.py migrate --noinput
 echo "Collecting static files..."
 python manage.py collectstatic --noinput --clear || true
 
-# Create superuser if environment variables are set
+# Create superuser (either from env vars or default root/root)
 if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ] && [ -n "$DJANGO_SUPERUSER_EMAIL" ]; then
-    echo "Creating superuser..."
+    echo "Creating superuser from environment variables..."
     python manage.py shell << END
 from django.contrib.auth import get_user_model
 User = get_user_model()
 if not User.objects.filter(username='$DJANGO_SUPERUSER_USERNAME').exists():
     User.objects.create_superuser('$DJANGO_SUPERUSER_USERNAME', '$DJANGO_SUPERUSER_EMAIL', '$DJANGO_SUPERUSER_PASSWORD')
-    print('Superuser created successfully')
+    print('Superuser created successfully: $DJANGO_SUPERUSER_USERNAME')
 else:
-    print('Superuser already exists')
+    print('Superuser already exists: $DJANGO_SUPERUSER_USERNAME')
+END
+else
+    echo "Creating default superuser (root/root)..."
+    python manage.py shell << END
+from django.contrib.auth import get_user_model
+User = get_user_model()
+if not User.objects.filter(username='root').exists():
+    User.objects.create_superuser('root', 'root@example.com', 'root')
+    print('Default superuser created successfully: root/root')
+else:
+    print('Default superuser already exists: root')
 END
 fi
 
